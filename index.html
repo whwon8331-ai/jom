@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한서고등학교 비상 학생기록부</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Serif+KR:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<style>
+:root{
+  --bg:#F4F0E4;
+  --bg-alt:#E9E2D0;
+  --navy:#141F38;
+  --navy-2:#233258;
+  --gold:#C6A030;
+  --red:#B4222F;
+  --ink:#181818;
+  --paper:#FBF8F0;
+  --line:rgba(20,20,20,0.14);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  background-image:radial-gradient(circle at 1px 1px, rgba(20,20,20,0.05) 1px, transparent 0);
+  background-size:22px 22px;
+  color:var(--ink);
+  font-family:'Pretendard', sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--red);color:#fff;}
+img{display:block;max-width:100%;}
+
+/* ---------- ticker ---------- */
+.ticker{
+  background:var(--navy);
+  color:var(--bg);
+  font-family:monospace;
+  font-size:12px;
+  letter-spacing:0.06em;
+  padding:6px 0;
+  overflow:hidden;
+  white-space:nowrap;
+  position:relative;
+  border-bottom:2px solid var(--red);
+}
+.ticker-inner{display:inline-block;padding-left:100%;animation:scroll 34s linear infinite;}
+.ticker span{margin-right:48px;color:#EADFC0;}
+.ticker span.warn{color:#ff8a8a;}
+@keyframes scroll{0%{transform:translateX(0);}100%{transform:translateX(-100%);}}
+
+/* ---------- header ---------- */
+header{padding:64px 24px 40px;max-width:1180px;margin:0 auto;position:relative;}
+.crest-row{display:flex;align-items:center;gap:16px;margin-bottom:28px;flex-wrap:wrap;}
+.crest{
+  width:54px;height:54px;border-radius:50%;
+  border:2px solid var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Black Han Sans';font-size:15px;color:var(--navy);
+  background:var(--paper);flex-shrink:0;
+}
+.school-name{font-family:monospace;font-size:13px;letter-spacing:0.18em;color:var(--navy-2);text-transform:uppercase;}
+.status-pill{
+  margin-left:auto;display:flex;align-items:center;gap:8px;
+  font-family:monospace;font-size:12px;color:var(--red);
+  border:1px solid var(--red);padding:6px 12px;border-radius:100px;
+  background:rgba(180,34,47,0.06);
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 1.6s infinite;}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(180,34,47,0.5);}50%{opacity:0.5;box-shadow:0 0 0 6px rgba(180,34,47,0);}}
+h1{font-family:'Black Han Sans';font-size:clamp(36px,7vw,74px);line-height:1.08;margin:0 0 18px;color:var(--navy);letter-spacing:-0.01em;}
+h1 em{font-style:normal;color:var(--red);}
+.lede{font-size:16px;line-height:1.75;max-width:640px;color:#3a3a3a;}
+.lede b{color:var(--navy);}
+.tape-divider{
+  height:14px;margin:44px 0 0;
+  background:repeating-linear-gradient(-45deg,var(--navy),var(--navy) 14px,var(--gold) 14px,var(--gold) 28px);
+  opacity:0.9;
+}
+
+/* ---------- section shell ---------- */
+.section{max-width:1180px;margin:0 auto;padding:64px 24px;}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:12px;margin-bottom:30px;flex-wrap:wrap;gap:8px;}
+.section-head h2{font-family:'Black Han Sans';font-size:30px;color:var(--navy);margin:0;}
+.section-head span{font-family:monospace;font-size:11.5px;color:#777;}
+
+/* ---------- school intro ---------- */
+.school-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;}
+@media(max-width:860px){.school-grid{grid-template-columns:1fr;}}
+.school-text p{font-size:14.5px;line-height:1.85;color:#3a3a3a;margin:0 0 16px;}
+.school-text b{color:var(--navy);}
+.fact-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;border:1px solid var(--line);background:var(--paper);}
+.fact-list li{
+  display:grid;grid-template-columns:110px 1fr;gap:10px;
+  padding:13px 16px;border-bottom:1px solid var(--line);
+  font-size:13px;line-height:1.6;
+}
+.fact-list li:last-child{border-bottom:none;}
+.fact-list .k{font-family:monospace;color:var(--red);font-size:11px;letter-spacing:0.05em;padding-top:2px;}
+.fact-list .v{color:#333;}
+
+/* ---------- department cards ---------- */
+.dept-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+@media(max-width:760px){.dept-grid{grid-template-columns:1fr;}}
+.dept-card{
+  background:var(--paper);border:1px solid var(--line);
+  padding:20px 22px;position:relative;
+  display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;
+}
+.dept-num{
+  font-family:'Black Han Sans';font-size:34px;color:var(--bg-alt);
+  -webkit-text-stroke:1.4px var(--navy);
+  line-height:1;
+}
+.dept-card h3{font-family:'Noto Serif KR';font-weight:900;font-size:18px;margin:0 0 6px;color:var(--navy);}
+.dept-meta{font-family:monospace;font-size:11px;color:var(--red);margin-bottom:8px;display:flex;gap:12px;flex-wrap:wrap;}
+.dept-card p{font-size:13px;line-height:1.7;color:#444;margin:0;}
+
+/* ---------- roster ---------- */
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;}
+@media(max-width:980px){.grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:640px){.grid{grid-template-columns:repeat(2,1fr);}}
+
+.card{
+  background:var(--paper);border:1px solid var(--line);
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .25s ease, box-shadow .25s ease;
+  display:flex;flex-direction:column;
+}
+.card:hover{transform:translateY(-5px);box-shadow:0 14px 26px rgba(20,20,20,0.14);}
+.card:focus-visible{outline:3px solid var(--red);outline-offset:2px;}
+.card-top{
+  background:var(--navy);color:var(--bg);padding:10px 12px;
+  font-family:monospace;font-size:10.5px;display:flex;justify-content:space-between;letter-spacing:0.04em;
+}
+.card-photo{width:100%;aspect-ratio:3/4;overflow:hidden;position:relative;background:var(--navy);}
+.card-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:saturate(1.02);}
+.card-name{padding:14px 14px 4px;font-family:'Noto Serif KR';font-weight:900;font-size:19px;color:var(--navy);}
+.card-sub{padding:0 14px 16px;font-family:monospace;font-size:11px;color:#777;display:flex;gap:8px;flex-wrap:wrap;}
+.card-sub b{color:var(--red);font-weight:600;}
+.card-stamp{
+  position:absolute;top:44%;left:50%;transform:translate(-50%,-50%) rotate(-14deg);
+  border:2.5px solid var(--red);color:var(--red);font-family:'Black Han Sans';font-size:13px;
+  padding:5px 10px;letter-spacing:0.1em;opacity:0;transition:opacity .2s ease;
+  background:rgba(251,248,240,0.82);pointer-events:none;white-space:nowrap;
+}
+.card:hover .card-stamp{opacity:1;}
+
+/* ---------- modal ---------- */
+.overlay{
+  position:fixed;inset:0;background:rgba(15,18,26,0.72);
+  display:none;align-items:flex-start;justify-content:center;
+  padding:40px 16px;overflow-y:auto;z-index:50;backdrop-filter:blur(2px);
+}
+.overlay.open{display:flex;}
+.dossier{
+  background:var(--paper);max-width:800px;width:100%;position:relative;
+  border:1px solid var(--line);box-shadow:0 30px 60px rgba(0,0,0,0.4);
+  animation:rise .28s ease;
+}
+@keyframes rise{from{transform:translateY(24px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.dossier-head{
+  background:var(--navy);color:var(--bg);padding:22px 28px;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
+}
+.dossier-head .id{font-family:monospace;font-size:11px;color:var(--gold);letter-spacing:0.1em;margin-bottom:6px;}
+.dossier-head h2{font-family:'Black Han Sans';font-size:30px;margin:0;}
+.dossier-head .tags{margin-top:8px;font-family:monospace;font-size:12px;color:#cfd6e6;}
+.close-btn{
+  background:none;border:1px solid var(--bg);color:var(--bg);width:32px;height:32px;
+  border-radius:50%;cursor:pointer;flex-shrink:0;font-size:15px;line-height:1;
+}
+.close-btn:hover{background:var(--red);border-color:var(--red);}
+
+.dossier-photo{padding:26px 28px 0;display:grid;grid-template-columns:150px 1fr;gap:22px;align-items:start;}
+@media(max-width:560px){.dossier-photo{grid-template-columns:1fr;}}
+.dossier-photo .img-wrap{
+  width:100%;aspect-ratio:3/4;overflow:hidden;border:3px solid var(--navy);position:relative;
+}
+.dossier-photo .img-wrap::after{content:'';position:absolute;inset:-8px;border:1px solid var(--gold);pointer-events:none;}
+.dossier-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;}
+.appearance{font-size:13.5px;line-height:1.75;color:#3a3a3a;}
+.appearance b{color:var(--navy);font-weight:700;}
+.special{margin-top:10px;font-size:12.5px;color:var(--red);font-family:monospace;}
+
+.dossier-body{padding:24px 28px 32px;}
+.sec{margin-bottom:22px;}
+.sec-label{
+  font-family:monospace;font-size:11px;letter-spacing:0.14em;color:var(--red);
+  border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:10px;text-transform:uppercase;
+}
+.kv{display:grid;grid-template-columns:88px 1fr;gap:6px 14px;font-size:13.5px;line-height:1.65;}
+.kv dt{color:#8a8a8a;font-family:monospace;font-size:11.5px;padding-top:2px;}
+.kv dd{margin:0;color:var(--ink);}
+.psy{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:560px){.psy{grid-template-columns:1fr;}}
+.psy-item{background:var(--bg);border-left:3px solid var(--gold);padding:10px 12px;}
+.psy-item .t{font-family:monospace;font-size:10.5px;color:var(--navy-2);margin-bottom:4px;letter-spacing:0.05em;}
+.psy-item .d{font-size:13px;line-height:1.6;color:#333;}
+.record-stamp{margin-top:26px;display:flex;justify-content:flex-end;}
+.record-stamp .s{
+  border:2px solid var(--red);color:var(--red);font-family:'Black Han Sans';
+  font-size:14px;padding:6px 14px;transform:rotate(-6deg);letter-spacing:0.08em;
+}
+
+footer{
+  text-align:center;padding:40px 20px 60px;font-family:monospace;
+  font-size:11.5px;color:#8a8a8a;border-top:1px solid var(--line);
+}
+</style>
+</head>
+<body>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="warn">◆ 긴급경보 : 교내 전역 통신두절</span>
+    <span>정문 봉쇄 확인</span>
+    <span class="warn">◆ 생존자 10명 확인됨</span>
+    <span>부실 간 무기 반출 통제 실패</span>
+    <span class="warn">◆ 외부 지원 없음</span>
+    <span>체육관 3층 안전지대 추정</span>
+    <span class="warn">◆ 감염 경로 불명</span>
+    <span>기숙사 A동 출입금지</span>
+  </div>
+</div>
+
+<header>
+  <div class="crest-row">
+    <div class="crest">한서</div>
+    <div class="school-name">HANSEO PHYSICAL EDUCATION HIGH SCHOOL</div>
+    <div class="status-pill"><span class="dot"></span>생존자 10 / 10</div>
+  </div>
+  <h1>비상 학생<em>기록부</em></h1>
+  <p class="lede">
+    전국구 체육특성화고 <b>한서고등학교</b>. 평범한 등교일, 원인불명 바이러스가 교내에 퍼지며
+    정문이 봉쇄되고 통신이 끊겼다. 부실 배정과 예산, 성적을 두고 오래 반목해온 열 개 부서의
+    학생들이 탈출이라는 하나의 목표 아래 억지로 손을 잡는다 — 여전히, 서로를 못 견뎌하며.
+  </p>
+</header>
+
+<div class="tape-divider"></div>
+
+<!-- ===== 학교 소개 ===== -->
+<section class="section" id="school">
+  <div class="section-head"><h2>학교 소개</h2><span>SCHOOL PROFILE</span></div>
+  <div class="school-grid">
+    <div class="school-text">
+      <p><b>한서고등학교</b>는 전국구 성적을 자랑하는 기숙사형 체육특성화고다. 열 개 종목 부서가
+      한 캠퍼스 안에서 예산과 시설, 대회 출전권을 두고 경쟁해왔고, 성적이 곧 서열이 되는
+      분위기 속에서 부서 간 감정의 골은 깊어질 대로 깊어졌다.</p>
+      <p>사건 당일, 평범한 등교일 오전에 원인불명 바이러스가 교내에서 확산되기 시작했다.
+      정문은 봉쇄되었고 외부와의 통신은 완전히 끊겼다. 외부 지원은 기대할 수 없는 상태.
+      각 부서의 부실은 순식간에 유일한 생존 거점이 되었고, 늘 쓰던 체육 기구는 이제
+      각자의 유일한 무기가 됐다.</p>
+      <p>목표는 하나, <b>열 명 전원 생존과 교내 탈출로 확보</b>다. 하지만 함께 움직이는 지금도
+      부서 간 디스전과 책임 전가, 주도권 다툼은 사라지지 않는다. 협력은 표면적일 뿐,
+      한서고의 진짜 생존 조건은 체력이 아니라 서로를 견디는 것일지도 모른다.</p>
+    </div>
+    <ul class="fact-list">
+      <li><span class="k">유형</span><span class="v">체육특성화 기숙사형 고등학교</span></li>
+      <li><span class="k">현재상황</span><span class="v">정문 봉쇄 · 통신 두절 · 교내 고립</span></li>
+      <li><span class="k">생존거점</span><span class="v">각 부서 부실 10곳</span></li>
+      <li><span class="k">무기체계</span><span class="v">체육 기구 전용, 체력차가 생존력 좌우</span></li>
+      <li><span class="k">내부역학</span><span class="v">부실·예산·성적 경쟁에서 비롯된 갈등 지속</span></li>
+      <li><span class="k">공동목표</span><span class="v">생존자 10명 전원 탈출로 확보</span></li>
+      <li><span class="k">분위기</span><span class="v">긴장감 속 블랙코미디성 디스전, 생존 스릴러</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 부서 소개 ===== -->
+<section class="section" id="dept">
+  <div class="section-head"><h2>부서 소개</h2><span>10 CLUBS · CROSS RIVALRY</span></div>
+  <div class="dept-grid" id="deptGrid"></div>
+</section>
+
+<!-- ===== 학생 명부 ===== -->
+<section class="section" id="roster">
+  <div class="section-head"><h2>생존자 명부</h2><span>CLICK CARD FOR FULL DOSSIER</span></div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<div class="overlay" id="overlay">
+  <div class="dossier" id="dossier"></div>
+</div>
+
+<footer>한서고등학교 학생생활기록부 · 비인가 열람 금지 · HANSEO H.S. EMERGENCY REGISTRY</footer>
+
+<script>
+const DEPTS = [
+  {name:"수영부", loc:"실내 수영장동", members:"부원 8명", note:"교내 최고 훈련강도, 물 소모량 문제로 급수 관련 타 부서와 마찰 잦음. 성적은 최상위권이나 부원끼리도 말이 적은 폐쇄적 분위기."},
+  {name:"검도부", loc:"무도관 2층", members:"부원 6명", note:"규율과 기수 문화가 엄격하기로 학교 전체에서 유명. 인원은 적지만 단체전 전국우승 전통을 자랑한다."},
+  {name:"배구부", loc:"제2체육관", members:"부원 10명", note:"팀워크를 앞세우지만 내부 위계는 뚜렷한 편. 세터 중심 전술로 손발이 잘 맞는 몇 안 되는 부서."},
+  {name:"육상부", loc:"운동장 트랙", members:"부원 12명", note:"개인 기록이 전부인 문화. 단체 작전이나 협동 훈련 참여율이 가장 낮아 타 부서의 눈총을 받는다."},
+  {name:"야구부", loc:"야구장 · 실내연습장", members:"부원 15명", note:"교내 예산 최다 배정, 인기도 최상위. 화려한 만큼 텃세와 과시 문화도 세다는 평."},
+  {name:"태권도부", loc:"무도관 1층", members:"부원 9명", note:"품새와 겨루기를 병행하는 정통파. 선후배 유대가 끈끈해 결속력만큼은 열 개 부서 중 최고."},
+  {name:"양궁부", loc:"실외 사로", members:"부원 5명", note:"비인기 종목 취급을 받지만 성적은 전국 최상위. 인원이 적고 조용해 존재감이 잘 드러나지 않는다."},
+  {name:"축구부", loc:"축구장", members:"부원 20명", note:"전교 인지도 1위, 부원 수도 최다. 그만큼 내부 주전 경쟁도 가장 치열한 부서."},
+  {name:"농구부", loc:"제1체육관", members:"부원 10명", note:"신체조건 우월주의가 강하게 자리잡은 부서. 타 부서를 얕보는 태도로 원성을 많이 산다."},
+  {name:"역도부", loc:"웨이트룸", members:"부원 4명", note:"교내 대표 비인기 종목. 성적은 준수하지만 주목받지 못한 설움이 커, 존재감 어필에 필사적이다."}
+];
+
+const DATA = [
+{
+  name:"남해준", team:"수영부", grade:"고3", gender:"남", img:"images/nam-haejun.jpeg",
+  appearance:"187cm, 넓은 어깨, 올백머리, 파란 눈",
+  role:"에이스 · 주장",
+  standing:"전국체전 메달리스트, 교내 유명인이지만 대인관계는 좁다",
+  record:"자유형 메달, 접영 동메달",
+  special:"",
+  psy:[
+    {t:"근원욕구", d:"인정욕구, 고립 탈피"},
+    {t:"기본성격", d:"과묵, 자존심이 강함, 겉은 냉정하지만 속은 불안"},
+    {t:"자각상태", d:"본인의 냉담함을 스스로 인지하지 못함, 무의식적으로 벽을 쌓음"},
+    {t:"형성배경", d:"조기유학, 부모 부재, 독립적으로 훈련해온 습관, 감정표현이 미숙함"}
+  ]
+},
+{
+  name:"권무진", team:"검도부", grade:"고3", gender:"남", img:"images/gwon-mujin.jpeg",
+  appearance:"185cm, 다부진 체격, 갈색 뒤로 묶은 꽁지머리, 날카로운 눈매, 회색 눈",
+  role:"주장 · 부실 규율 담당",
+  standing:"전국우승 경력, 후배 통솔력이 강하나 깐깐하다는 평가",
+  record:"전국검도대회 단체전 우승, 개인전 4강",
+  special:"양궁부 차유현과 친척",
+  psy:[
+    {t:"근원욕구", d:"통제욕구, 완벽주의"},
+    {t:"기본성격", d:"원칙주의, 예의를 중시, 융통성 부족"},
+    {t:"자각상태", d:"본인의 고집이 타인에게 압박으로 느껴진다는 것을 모름"},
+    {t:"형성배경", d:"엄격한 사범 아버지, 어릴 때부터 규율을 강요받음, 실수가 용납되지 않는 환경"}
+  ]
+},
+{
+  name:"백시온", team:"배구부", grade:"고2", gender:"남", img:"images/baek-sion.jpeg",
+  appearance:"181cm, 연한 분홍머리, 보라색 눈",
+  role:"세터 · 분위기메이커",
+  standing:"후배지만 실력을 인정받아 선배들에게 귀여움을 받는 편",
+  record:"전국배구대회 준우승, 세터상 수상",
+  special:"",
+  psy:[
+    {t:"근원욕구", d:"소속감, 사랑받고 싶음"},
+    {t:"기본성격", d:"눈치가 빠름, 밝음, 갈등 회피형"},
+    {t:"자각상태", d:"비위를 맞추는 습관이 있다는 걸 자각하지만 고치지 못함"},
+    {t:"형성배경", d:"잦은 전학으로 매번 새 무리에 적응해야 했음, 거절당할까봐 두려움이 내재됨"}
+  ]
+},
+{
+  name:"윤재하", team:"육상부", grade:"고2", gender:"남", img:"images/yoon-jaeha.jpeg",
+  appearance:"189cm, 슬림 근육형, 회색머리, 냉소적인 눈빛, 연푸른색 눈",
+  role:"단거리 에이스",
+  standing:"성적은 최상위지만 협동심 부족 평가, 독불장군 이미지",
+  record:"전국체전 100m 2위, 계주 1위",
+  special:"",
+  psy:[
+    {t:"근원욕구", d:"자유, 얽매이기 싫음"},
+    {t:"기본성격", d:"개인주의, 직설적, 책임회피 성향"},
+    {t:"자각상태", d:"이기적으로 보인다는 걸 알지만 고칠 생각이 없음"},
+    {t:"형성배경", d:"과잉통제하는 부모 밑에서 성장, 반발로 혼자 하는 것을 선호하게 됨"}
+  ]
+},
+{
+  name:"강도현", team:"야구부", grade:"고3", gender:"남", img:"images/kang-dohyun.jpeg",
+  appearance:"183cm, 근육질, 검은머리, 자신감 있는 표정, 검은 눈",
+  role:"4번 타자 · 비공식 리더 성향",
+  standing:"스카우트 제의를 받은 수준, 인기가 많고 과시가 심함",
+  record:"전국고교야구선발전 MVP",
+  special:"",
+  psy:[
+    {t:"근원욕구", d:"승부욕, 우월감 확인"},
+    {t:"기본성격", d:"호승심이 강함, 즉흥적, 책임감은 있는 편"},
+    {t:"자각상태", d:"본인의 허세가 타인에게는 거슬린다는 것을 모름"},
+    {t:"형성배경", d:"형제간 실력 비교를 당하며 성장, 이겨야만 인정받는다는 걸 학습함"}
+  ]
+},
+{
+  name:"문태겸", team:"태권도부", grade:"고3", gender:"남", img:"images/moon-taegyeom.jpeg",
+  appearance:"188cm, 단단한 체형, 연갈색머리, 갈색 눈",
+  role:"주장 · 후배 보호역",
+  standing:"전국대회 입상, 성실함으로 두터운 신뢰를 받음",
+  record:"전국유도대회 3위",
+  special:"",
+  psy:[
+    {t:"근원욕구", d:"책임감, 보호본능"},
+    {t:"기본성격", d:"과묵, 침착, 자기희생적"},
+    {t:"자각상태", d:"과도한 책임감이 스스로를 소모시키고 있음을 자각하지 못함"},
+    {t:"형성배경", d:"장남으로 자라며 어릴 때부터 동생들을 챙겨온 환경"}
+  ]
+},
+{
+  name:"차유현", team:"양궁부", grade:"고2", gender:"남", img:"images/cha-yuhyeon.jpeg",
+  appearance:"183cm, 자주색 뒤로 묶은 꽁지머리, 무표정에 가까운 평온함",
+  role:"정조준 · 멘탈 담당",
+  standing:"성적은 우수하나 조용해서 존재감이 약한 편",
+  record:"전국양궁대회 개인전 1위",
+  special:"검도부 권무진과 친척",
+  psy:[
+    {t:"근원욕구", d:"안정, 통제된 환경"},
+    {t:"기본성격", d:"내향적, 신중함, 완벽주의"},
+    {t:"자각상태", d:"감정을 억누르는 습관을 훈련의 일부로 착각하고 있음"},
+    {t:"형성배경", d:"엄격한 자기관리를 요구받으며 성장, 실수에 대한 공포가 내재됨"}
+  ]
+},
+{
+  name:"이도윤", team:"축구부", grade:"고2", gender:"남", img:"images/lee-doyoon.jpeg",
+  appearance:"189cm, 근육질, 검은머리에 앞머리 흰색 브릿지, 푸른 눈",
+  role:"공격수 · 팀 내 인기 1위",
+  standing:"교내 인지도 최상, 친화력이 좋으나 진지함이 부족하다는 평가",
+  record:"전국축구대회 득점왕",
+  special:"",
+  psy:[
+    {t:"근원욕구", d:"인기, 관심받고 싶음"},
+    {t:"기본성격", d:"사교적, 낙천적, 책임회피 경향"},
+    {t:"자각상태", d:"가볍게 보인다는 평가에 서운해하면서도 태도를 고치지 않음"},
+    {t:"형성배경", d:"형이 집안의 무거운 분위기를 짊어짐, 본인은 밝음으로 도피함"}
+  ]
+},
+{
+  name:"정태오", team:"농구부", grade:"고3", gender:"남", img:"images/jeong-taeo.jpeg",
+  appearance:"194cm, 장신, 다부진 체격, 거만한 표정, 갈색머리, 주황색 눈",
+  role:"센터 · 에이스",
+  standing:"신체조건 최강, 자만심이 강하고 타 부서를 무시하는 태도",
+  record:"전국농구대회 득점왕, 리바운드 1위",
+  special:"",
+  psy:[
+    {t:"근원욕구", d:"우월감, 비교우위 확인"},
+    {t:"기본성격", d:"거만함, 경쟁심이 강함, 속으로는 불안함"},
+    {t:"자각상태", d:"본인의 우월감이 열등감에 대한 방어라는 걸 자각하지 못함"},
+    {t:"형성배경", d:"작은 키 콤플렉스를 가진 아버지, 키 큰 것으로 과잉보상을 학습함"}
+  ]
+},
+{
+  name:"곽현준", team:"역도부", grade:"고2", gender:"남", img:"images/gwak-hyunjun.jpeg",
+  appearance:"185cm, 근육질, 다부진 체형, 강해 보이는 인상, 금색 눈, 짧은 스포츠머리",
+  role:"주장 · 파워 담당",
+  standing:"성적은 좋지만 비인기 종목이라 존재감을 어필하려 애씀",
+  record:"전국역도대회 2위",
+  special:"",
+  psy:[
+    {t:"근원욕구", d:"존재감, 열등감 보상"},
+    {t:"기본성격", d:"다혈질, 과시적, 속은 여림"},
+    {t:"자각상태", d:"과한 자기 어필이 오히려 역효과라는 걸 모름"},
+    {t:"형성배경", d:"비인기 종목을 선택한 뒤 주목받지 못한 경험, 인정에 대한 갈망이 심화됨"}
+  ]
+}
+];
+
+const deptGrid = document.getElementById('deptGrid');
+DEPTS.forEach((d,i)=>{
+  const el = document.createElement('div');
+  el.className = 'dept-card';
+  el.innerHTML = `
+    <div class="dept-num">${String(i+1).padStart(2,'0')}</div>
+    <div>
+      <h3>${d.name}</h3>
+      <div class="dept-meta"><span>${d.loc}</span><span>${d.members}</span></div>
+      <p>${d.note}</p>
+    </div>
+  `;
+  deptGrid.appendChild(el);
+});
+
+const grid = document.getElementById('grid');
+const overlay = document.getElementById('overlay');
+const dossier = document.getElementById('dossier');
+
+DATA.forEach((c, i) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.tabIndex = 0;
+  card.innerHTML = `
+    <div class="card-top"><span>NO.${String(i+1).padStart(2,'0')}</span><span>${c.grade}</span></div>
+    <div class="card-photo">
+      <img src="${c.img}" alt="${c.name}" loading="lazy">
+      <div class="card-stamp">생존확인</div>
+    </div>
+    <div class="card-name">${c.name}</div>
+    <div class="card-sub"><span>${c.team}</span><b>${c.gender}</b></div>
+  `;
+  const open = () => openDossier(i);
+  card.addEventListener('click', open);
+  card.addEventListener('keydown', e => { if(e.key === 'Enter') open(); });
+  grid.appendChild(card);
+});
+
+function openDossier(i){
+  const c = DATA[i];
+  dossier.innerHTML = `
+    <div class="dossier-head">
+      <div>
+        <div class="id">RECORD NO.${String(i+1).padStart(3,'0')} · ${c.team.toUpperCase()}</div>
+        <h2>${c.name}</h2>
+        <div class="tags">${c.team} · ${c.grade} · ${c.gender}</div>
+      </div>
+      <button class="close-btn" id="closeBtn">✕</button>
+    </div>
+    <div class="dossier-photo">
+      <div class="img-wrap"><img src="${c.img}" alt="${c.name}"></div>
+      <div>
+        <div class="appearance"><b>외형</b> — ${c.appearance}</div>
+        ${c.special ? `<div class="special">※ ${c.special}</div>` : ``}
+      </div>
+    </div>
+    <div class="dossier-body">
+      <div class="sec">
+        <div class="sec-label">기본 정보</div>
+        <dl class="kv">
+          <dt>역할</dt><dd>${c.role}</dd>
+          <dt>교내 입지</dt><dd>${c.standing}</dd>
+          <dt>대회 성적</dt><dd>${c.record}</dd>
+        </dl>
+      </div>
+      <div class="sec">
+        <div class="sec-label">심리 프로파일</div>
+        <div class="psy">
+          ${c.psy.map(p => `<div class="psy-item"><div class="t">${p.t}</div><div class="d">${p.d}</div></div>`).join('')}
+        </div>
+      </div>
+      <div class="record-stamp"><div class="s">기록 열람 완료</div></div>
+    </div>
+  `;
+  overlay.classList.add('open');
+  document.getElementById('closeBtn').addEventListener('click', closeDossier);
+  document.body.style.overflow = 'hidden';
+}
+function closeDossier(){ overlay.classList.remove('open'); document.body.style.overflow = ''; }
+overlay.addEventListener('click', e => { if(e.target === overlay) closeDossier(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDossier(); });
+</script>
+
+</body>
+</html>
