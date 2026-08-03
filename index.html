@@ -1,4 +1,3 @@
-<!-- redeploy -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -1381,7 +1380,7 @@ b, strong,
   inset:0;
   background:
     linear-gradient(rgba(2,4,3,.76),rgba(2,4,3,.9)),
-    url('campus-map.png') center/cover no-repeat;
+    url('./campus-map.png') center/cover no-repeat;
   filter:grayscale(.45) contrast(1.08) brightness(.56);
   transform:scale(1.04);
 }
@@ -1477,8 +1476,8 @@ b, strong,
   </div>
 </div>
 
-<audio id="introAudio" preload="auto">
-  <source src="emergency-broadcast.mp3" type="audio/mpeg">
+<audio id="introAudio" preload="auto" playsinline>
+  <source src="./emergency-broadcast.mp3" type="audio/mpeg">
 </audio>
 
 
@@ -1525,7 +1524,7 @@ b, strong,
   </div>
 
   <div class="campus-map-image">
-    <img src="campus-map.png" alt="한서고등학교 캠퍼스 배치도">
+    <img src="./campus-map.png" alt="한서고등학교 캠퍼스 배치도">
   </div>
 </section>
 
@@ -1903,7 +1902,7 @@ document.addEventListener('keydown', e => {
 /* ---------- 최초 1회 안내 화면 ---------- */
 const firstVisitIntro = document.getElementById('firstVisitIntro');
 const introAudio = document.getElementById('introAudio');
-const introStorageKey = 'hanseo-first-visit-intro-seen';
+const introStorageKey = 'hanseo-first-visit-intro-seen-v2';
 
 function beginHanseoSite(){
   if(!firstVisitIntro || firstVisitIntro.classList.contains('hidden')) return;
@@ -1916,9 +1915,12 @@ function beginHanseoSite(){
 }
 
 if(firstVisitIntro){
-  if(localStorage.getItem(introStorageKey) === 'true'){
+  const forceIntro = new URLSearchParams(location.search).get('intro') === '1';
+
+  if(!forceIntro && localStorage.getItem(introStorageKey) === 'true'){
     firstVisitIntro.classList.add('hidden');
   }else{
+    firstVisitIntro.classList.remove('hidden');
     firstVisitIntro.addEventListener('click', beginHanseoSite);
     firstVisitIntro.addEventListener('keydown', e => {
       if(e.key === 'Enter' || e.key === ' '){
