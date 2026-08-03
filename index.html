@@ -70,7 +70,7 @@ header{padding:64px 24px 40px;max-width:1180px;margin:0 auto;position:relative;}
 }
 .dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 1.6s infinite;}
 @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(180,34,47,0.5);}50%{opacity:0.5;box-shadow:0 0 0 6px rgba(180,34,47,0);}}
-h1{font-family:'Black Han Sans';font-size:clamp(36px,7vw,74px);line-height:1.08;margin:0 0 18px;color:var(--navy);letter-spacing:-0.01em;}
+h1{font-family:'Pretendard','Noto Serif KR',sans-serif;font-weight:800;font-size:clamp(34px,6.5vw,66px);line-height:1.16;margin:0 0 18px;color:var(--navy);letter-spacing:-0.02em;}
 h1 em{font-style:normal;color:var(--red);}
 .lede{font-size:16px;line-height:1.75;max-width:640px;color:#3a3a3a;}
 .lede b{color:var(--navy);}
@@ -85,6 +85,24 @@ h1 em{font-style:normal;color:var(--red);}
 .section-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:12px;margin-bottom:30px;flex-wrap:wrap;gap:8px;}
 .section-head h2{font-family:'Black Han Sans';font-size:30px;color:var(--navy);margin:0;}
 .section-head span{font-family:monospace;font-size:11.5px;color:#777;}
+
+/* ---------- toggle / collapsible ---------- */
+.section-head.toggle-head{cursor:pointer;user-select:none;}
+.section-head.toggle-head:hover h2{color:var(--red);}
+.toggle-hint{display:flex;align-items:center;gap:6px;}
+.chevron{display:inline-block;transition:transform .25s ease;font-size:13px;}
+.section-head.open .chevron{transform:rotate(180deg);}
+.collapsible{max-height:0;overflow:hidden;opacity:0;transition:max-height .45s ease, opacity .35s ease, margin .35s ease;}
+.collapsible.open{max-height:8000px;opacity:1;}
+
+/* ---------- floor plan (도면) ---------- */
+.floorplan-block{margin-top:30px;border:1px solid var(--line);background:var(--paper);padding:20px;}
+.fp-label{font-family:monospace;font-size:11px;letter-spacing:0.12em;color:var(--red);margin-bottom:14px;text-transform:uppercase;}
+.fp-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-family:monospace;font-size:10.5px;color:#666;}
+.fp-legend span{display:flex;align-items:center;gap:5px;}
+.fp-legend i{width:10px;height:10px;display:inline-block;border:1px solid var(--navy-2);}
+.dept-floorplan{grid-column:1/-1;margin-top:14px;border-top:1px dashed var(--line);padding-top:14px;}
+.dept-floorplan .fp-label{margin-bottom:8px;}
 
 /* ---------- school intro ---------- */
 .school-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;}
@@ -242,44 +260,64 @@ footer{
 
 <div class="tape-divider"></div>
 
-<!-- ===== 학교 소개 ===== -->
-<section class="section" id="school">
-  <div class="section-head"><h2>학교 소개</h2><span>SCHOOL PROFILE</span></div>
-  <div class="school-grid">
-    <div class="school-text">
-      <p><b>한서고등학교</b>는 전국구 성적을 자랑하는 기숙사형 체육특성화고다. 열 개 종목 부서가
-      한 캠퍼스 안에서 예산과 시설, 대회 출전권을 두고 경쟁해왔고, 성적이 곧 서열이 되는
-      분위기 속에서 부서 간 감정의 골은 깊어질 대로 깊어졌다.</p>
-      <p>사건 당일, 평범한 등교일 오전에 원인불명 바이러스가 교내에서 확산되기 시작했다.
-      정문은 봉쇄되었고 외부와의 통신은 완전히 끊겼다. 외부 지원은 기대할 수 없는 상태.
-      각 부서의 부실은 순식간에 유일한 생존 거점이 되었고, 늘 쓰던 체육 기구는 이제
-      각자의 유일한 무기가 됐다.</p>
-      <p>목표는 하나, <b>열 명 전원 생존과 교내 탈출로 확보</b>다. 하지만 함께 움직이는 지금도
-      부서 간 디스전과 책임 전가, 주도권 다툼은 사라지지 않는다. 협력은 표면적일 뿐,
-      한서고의 진짜 생존 조건은 체력이 아니라 서로를 견디는 것일지도 모른다.</p>
-    </div>
-    <ul class="fact-list">
-      <li><span class="k">유형</span><span class="v">체육특성화 기숙사형 고등학교</span></li>
-      <li><span class="k">현재상황</span><span class="v">정문 봉쇄 · 통신 두절 · 교내 고립</span></li>
-      <li><span class="k">생존거점</span><span class="v">각 부서 부실 10곳</span></li>
-      <li><span class="k">무기체계</span><span class="v">체육 기구 전용, 체력차가 생존력 좌우</span></li>
-      <li><span class="k">내부역학</span><span class="v">부실·예산·성적 경쟁에서 비롯된 갈등 지속</span></li>
-      <li><span class="k">공동목표</span><span class="v">생존자 10명 전원 탈출로 확보</span></li>
-      <li><span class="k">분위기</span><span class="v">긴장감 속 블랙코미디성 디스전, 생존 스릴러</span></li>
-    </ul>
-  </div>
-</section>
-
-<!-- ===== 부서 소개 ===== -->
-<section class="section" id="dept">
-  <div class="section-head"><h2>부서 소개</h2><span>10 CLUBS · CROSS RIVALRY</span></div>
-  <div class="dept-grid" id="deptGrid"></div>
-</section>
-
 <!-- ===== 학생 명부 ===== -->
 <section class="section" id="roster">
   <div class="section-head"><h2>생존자 명부</h2><span>CLICK CARD FOR FULL DOSSIER</span></div>
   <div class="grid" id="grid"></div>
+</section>
+
+<!-- ===== 학교 소개 (클릭하여 열람) ===== -->
+<section class="section" id="school">
+  <div class="section-head toggle-head" data-target="schoolBody">
+    <h2>학교 소개</h2>
+    <span class="toggle-hint">SCHOOL PROFILE · 클릭하여 열람<span class="chevron">▾</span></span>
+  </div>
+  <div class="collapsible" id="schoolBody">
+    <div class="school-grid">
+      <div class="school-text">
+        <p><b>한서고등학교</b>는 전국구 성적을 자랑하는 기숙사형 체육특성화고다. 열 개 종목 부서가
+        한 캠퍼스 안에서 예산과 시설, 대회 출전권을 두고 경쟁해왔고, 성적이 곧 서열이 되는
+        분위기 속에서 부서 간 감정의 골은 깊어질 대로 깊어졌다.</p>
+        <p>사건 당일, 평범한 등교일 오전에 원인불명 바이러스가 교내에서 확산되기 시작했다.
+        정문은 봉쇄되었고 외부와의 통신은 완전히 끊겼다. 외부 지원은 기대할 수 없는 상태.
+        각 부서의 부실은 순식간에 유일한 생존 거점이 되었고, 늘 쓰던 체육 기구는 이제
+        각자의 유일한 무기가 됐다.</p>
+        <p>목표는 하나, <b>열 명 전원 생존과 교내 탈출로 확보</b>다. 하지만 함께 움직이는 지금도
+        부서 간 디스전과 책임 전가, 주도권 다툼은 사라지지 않는다. 협력은 표면적일 뿐,
+        한서고의 진짜 생존 조건은 체력이 아니라 서로를 견디는 것일지도 모른다.</p>
+      </div>
+      <ul class="fact-list">
+        <li><span class="k">유형</span><span class="v">체육특성화 기숙사형 고등학교</span></li>
+        <li><span class="k">현재상황</span><span class="v">정문 봉쇄 · 통신 두절 · 교내 고립</span></li>
+        <li><span class="k">생존거점</span><span class="v">각 부서 부실 10곳</span></li>
+        <li><span class="k">무기체계</span><span class="v">체육 기구 전용, 체력차가 생존력 좌우</span></li>
+        <li><span class="k">내부역학</span><span class="v">부실·예산·성적 경쟁에서 비롯된 갈등 지속</span></li>
+        <li><span class="k">공동목표</span><span class="v">생존자 10명 전원 탈출로 확보</span></li>
+        <li><span class="k">분위기</span><span class="v">긴장감 속 블랙코미디성 디스전, 생존 스릴러</span></li>
+      </ul>
+    </div>
+    <div class="floorplan-block">
+      <div class="fp-label">교내 배치도 · CAMPUS LAYOUT</div>
+      <div id="schoolMap"></div>
+      <div class="fp-legend">
+        <span><i style="background:var(--red);"></i>정문 봉쇄</span>
+        <span><i style="background:var(--gold);"></i>안전지대 추정</span>
+        <span><i style="background:#999;"></i>출입금지 구역</span>
+        <span><i style="background:var(--paper);"></i>부서 거점</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 부서 소개 (클릭하여 열람) ===== -->
+<section class="section" id="dept">
+  <div class="section-head toggle-head" data-target="deptBody">
+    <h2>부서 소개</h2>
+    <span class="toggle-hint">10 CLUBS · CROSS RIVALRY · 클릭하여 열람<span class="chevron">▾</span></span>
+  </div>
+  <div class="collapsible" id="deptBody">
+    <div class="dept-grid" id="deptGrid"></div>
+  </div>
 </section>
 
 <div class="overlay" id="overlay">
@@ -290,16 +328,16 @@ footer{
 
 <script>
 const DEPTS = [
-  {name:"수영부", loc:"실내 수영장동", members:"부원 8명", note:"교내 최고 훈련강도, 물 소모량 문제로 급수 관련 타 부서와 마찰 잦음. 성적은 최상위권이나 부원끼리도 말이 적은 폐쇄적 분위기."},
-  {name:"검도부", loc:"무도관 2층", members:"부원 6명", note:"규율과 기수 문화가 엄격하기로 학교 전체에서 유명. 인원은 적지만 단체전 전국우승 전통을 자랑한다."},
-  {name:"배구부", loc:"제2체육관", members:"부원 10명", note:"팀워크를 앞세우지만 내부 위계는 뚜렷한 편. 세터 중심 전술로 손발이 잘 맞는 몇 안 되는 부서."},
-  {name:"육상부", loc:"운동장 트랙", members:"부원 12명", note:"개인 기록이 전부인 문화. 단체 작전이나 협동 훈련 참여율이 가장 낮아 타 부서의 눈총을 받는다."},
-  {name:"야구부", loc:"야구장 · 실내연습장", members:"부원 15명", note:"교내 예산 최다 배정, 인기도 최상위. 화려한 만큼 텃세와 과시 문화도 세다는 평."},
-  {name:"태권도부", loc:"무도관 1층", members:"부원 9명", note:"품새와 겨루기를 병행하는 정통파. 선후배 유대가 끈끈해 결속력만큼은 열 개 부서 중 최고."},
-  {name:"양궁부", loc:"실외 사로", members:"부원 5명", note:"비인기 종목 취급을 받지만 성적은 전국 최상위. 인원이 적고 조용해 존재감이 잘 드러나지 않는다."},
-  {name:"축구부", loc:"축구장", members:"부원 20명", note:"전교 인지도 1위, 부원 수도 최다. 그만큼 내부 주전 경쟁도 가장 치열한 부서."},
-  {name:"농구부", loc:"제1체육관", members:"부원 10명", note:"신체조건 우월주의가 강하게 자리잡은 부서. 타 부서를 얕보는 태도로 원성을 많이 산다."},
-  {name:"역도부", loc:"웨이트룸", members:"부원 4명", note:"교내 대표 비인기 종목. 성적은 준수하지만 주목받지 못한 설움이 커, 존재감 어필에 필사적이다."}
+  {name:"수영부", loc:"실내 수영장동", members:"부원 8명", note:"교내 최고 훈련강도, 물 소모량 문제로 급수 관련 타 부서와 마찰 잦음. 성적은 최상위권이나 부원끼리도 말이 적은 폐쇄적 분위기.", plan:["25M 레인","탈의·샤워실","장비보관실"]},
+  {name:"검도부", loc:"무도관 2층", members:"부원 6명", note:"규율과 기수 문화가 엄격하기로 학교 전체에서 유명. 인원은 적지만 단체전 전국우승 전통을 자랑한다.", plan:["수련도장","무기고","준비실"]},
+  {name:"배구부", loc:"제2체육관", members:"부원 10명", note:"팀워크를 앞세우지만 내부 위계는 뚜렷한 편. 세터 중심 전술로 손발이 잘 맞는 몇 안 되는 부서.", plan:["코트","락커룸","물품창고"]},
+  {name:"육상부", loc:"운동장 트랙", members:"부원 12명", note:"개인 기록이 전부인 문화. 단체 작전이나 협동 훈련 참여율이 가장 낮아 타 부서의 눈총을 받는다.", plan:["트랙 보조실","벤치구역","용품창고"]},
+  {name:"야구부", loc:"야구장 · 실내연습장", members:"부원 15명", note:"교내 예산 최다 배정, 인기도 최상위. 화려한 만큼 텃세와 과시 문화도 세다는 평.", plan:["실내연습장","락커룸","더그아웃","장비창고"]},
+  {name:"태권도부", loc:"무도관 1층", members:"부원 9명", note:"품새와 겨루기를 병행하는 정통파. 선후배 유대가 끈끈해 결속력만큼은 열 개 부서 중 최고.", plan:["수련도장","매트보관실","준비실"]},
+  {name:"양궁부", loc:"실외 사로", members:"부원 5명", note:"비인기 종목 취급을 받지만 성적은 전국 최상위. 인원이 적고 조용해 존재감이 잘 드러나지 않는다.", plan:["사로","표적판구역","활보관실"]},
+  {name:"축구부", loc:"축구장", members:"부원 20명", note:"전교 인지도 1위, 부원 수도 최다. 그만큼 내부 주전 경쟁도 가장 치열한 부서.", plan:["락커룸","벤치구역","장비창고"]},
+  {name:"농구부", loc:"제1체육관", members:"부원 10명", note:"신체조건 우월주의가 강하게 자리잡은 부서. 타 부서를 얕보는 태도로 원성을 많이 산다.", plan:["코트","락커룸","웨이트존"]},
+  {name:"역도부", loc:"웨이트룸", members:"부원 4명", note:"교내 대표 비인기 종목. 성적은 준수하지만 주목받지 못한 설움이 커, 존재감 어필에 필사적이다.", plan:["웨이트존","바벨거치대","보관실"]}
 ];
 
 const DATA = [
@@ -455,6 +493,10 @@ DEPTS.forEach((d,i)=>{
       <h3>${d.name}</h3>
       <div class="dept-meta"><span>${d.loc}</span><span>${d.members}</span></div>
       <p>${d.note}</p>
+      <div class="dept-floorplan">
+        <div class="fp-label">${d.loc} 도면 · FLOOR PLAN</div>
+        ${svgFloorPlan(d.plan)}
+      </div>
     </div>
   `;
   deptGrid.appendChild(el);
@@ -526,6 +568,84 @@ function openDossier(i){
 function closeDossier(){ overlay.classList.remove('open'); document.body.style.overflow = ''; }
 overlay.addEventListener('click', e => { if(e.target === overlay) closeDossier(); });
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDossier(); });
+
+/* ---------- 도면(floor plan) 생성 ---------- */
+function svgFloorPlan(rooms, w, h){
+  w = w || 380; h = h || 210;
+  const pad = 14, corridorH = 32;
+  const areaW = w - pad*2, areaH = h - pad*2 - corridorH;
+  const cols = rooms.length <= 2 ? rooms.length : Math.ceil(Math.sqrt(rooms.length));
+  const rows = Math.ceil(rooms.length / cols);
+  const cw = areaW / cols, rh = areaH / rows;
+  const fills = ['var(--paper)','var(--bg-alt)'];
+  let rects = '';
+  rooms.forEach((name, i) => {
+    const c = i % cols, r = Math.floor(i / cols);
+    const x = pad + c*cw, y = pad + r*rh;
+    const ww = cw - 6, hh = rh - 6;
+    rects += `<rect x="${x}" y="${y}" width="${ww}" height="${hh}" fill="${fills[i%2]}" stroke="var(--navy-2)" stroke-width="1.3"/>
+    <text x="${x+8}" y="${y+18}" font-family="monospace" font-size="10.5" fill="var(--navy)">${name}</text>`;
+  });
+  const corridorY = pad + areaH;
+  return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+    <rect x="0" y="0" width="${w}" height="${h}" fill="var(--bg)"/>
+    <rect x="${pad-4}" y="${pad-4}" width="${areaW+8}" height="${areaH+corridorH+8}" fill="none" stroke="var(--navy)" stroke-width="2"/>
+    ${rects}
+    <rect x="${pad}" y="${corridorY}" width="${areaW}" height="${corridorH-8}" fill="none" stroke="var(--navy-2)" stroke-width="1" stroke-dasharray="4 3"/>
+    <text x="${pad+6}" y="${corridorY+16}" font-family="monospace" font-size="9.5" fill="#777">복도 CORRIDOR</text>
+    <path d="M${pad-4} ${corridorY+12} l-9 0 l0 6 l9 0" fill="none" stroke="var(--red)" stroke-width="2"/>
+    <text x="${pad-30}" y="${corridorY+27}" font-family="monospace" font-size="8.5" fill="var(--red)">IN</text>
+    <path d="M${pad+areaW+4} ${corridorY+12} l9 0 l0 6 l-9 0" fill="none" stroke="var(--red)" stroke-width="2"/>
+    <text x="${pad+areaW+4}" y="${corridorY+27}" font-family="monospace" font-size="8.5" fill="var(--red)">EXIT</text>
+  </svg>`;
+}
+
+/* ---------- 교내 전체 배치도 ---------- */
+function schoolMapSVG(){
+  const b = (x,y,w,h,label1,label2,fill) => `
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill||'var(--paper)'}" stroke="var(--navy)" stroke-width="1.6"/>
+    <text x="${x+w/2}" y="${y+h/2-(label2?6:0)}" text-anchor="middle" font-family="monospace" font-size="11.5" fill="var(--navy)">${label1}</text>
+    ${label2? `<text x="${x+w/2}" y="${y+h/2+12}" text-anchor="middle" font-family="monospace" font-size="9.5" fill="#777">${label2}</text>`:''}`;
+  return `<svg viewBox="0 0 820 540" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+    <rect x="0" y="0" width="820" height="540" fill="var(--bg)"/>
+    <rect x="8" y="8" width="804" height="524" fill="none" stroke="var(--navy)" stroke-width="2"/>
+    ${b(20,20,150,80,'수영장동','수영부')}
+    ${b(186,20,150,80,'무도관','검도2F·태권1F')}
+    ${b(352,20,150,80,'제2체육관','배구부')}
+    ${b(518,20,150,80,'제1체육관','농구부')}
+    ${b(20,382,150,70,'실외 사로','양궁부')}
+    ${b(186,382,150,70,'웨이트룸','역도부')}
+    <rect x="684" y="20" width="120" height="130" fill="#cfcfc8" stroke="var(--navy)" stroke-width="1.6"/>
+    <text x="744" y="70" text-anchor="middle" font-family="monospace" font-size="11" fill="var(--navy)">기숙사 A동</text>
+    <text x="744" y="86" text-anchor="middle" font-family="monospace" font-size="9.5" fill="var(--red)">※ 출입금지</text>
+    <line x1="694" y1="30" x2="794" y2="140" stroke="var(--red)" stroke-width="1"/>
+    <line x1="794" y1="30" x2="694" y2="140" stroke="var(--red)" stroke-width="1"/>
+    <ellipse cx="230" cy="255" rx="150" ry="80" fill="none" stroke="var(--navy-2)" stroke-width="1.6" stroke-dasharray="6 4"/>
+    <text x="230" y="250" text-anchor="middle" font-family="monospace" font-size="11.5" fill="var(--navy)">운동장 트랙</text>
+    <text x="230" y="266" text-anchor="middle" font-family="monospace" font-size="9.5" fill="#777">육상부</text>
+    ${b(410,180,190,150,'야구장','야구부')}
+    ${b(618,180,186,150,'축구장','축구부')}
+    <circle cx="427" cy="60" r="7" fill="var(--gold)"/>
+    <text x="440" y="64" font-family="monospace" font-size="9.5" fill="var(--navy-2)">체육관 3층 - 안전지대 추정</text>
+    <path d="M356 470 h108 v40 h-108 z" fill="none" stroke="var(--red)" stroke-width="2"/>
+    <text x="410" y="494" text-anchor="middle" font-family="monospace" font-size="11" fill="var(--red)">정문 · 봉쇄</text>
+    <line x1="376" y1="480" x2="444" y2="500" stroke="var(--red)" stroke-width="2"/>
+    <line x1="444" y1="480" x2="376" y2="500" stroke="var(--red)" stroke-width="2"/>
+    <path d="M410 510 v-15 M356 452 v18 M464 452 v18" stroke="var(--navy-2)" stroke-width="1" stroke-dasharray="3 3"/>
+    <text x="20" y="530" font-family="monospace" font-size="9" fill="#999">SCHEMATIC · NOT TO SCALE</text>
+  </svg>`;
+}
+document.getElementById('schoolMap').innerHTML = schoolMapSVG();
+
+/* ---------- 아코디언(클릭 시 펼침) ---------- */
+document.querySelectorAll('.toggle-head').forEach(head => {
+  head.addEventListener('click', () => {
+    const target = document.getElementById(head.dataset.target);
+    const willOpen = !target.classList.contains('open');
+    target.classList.toggle('open', willOpen);
+    head.classList.toggle('open', willOpen);
+  });
+});
 </script>
 
 </body>
