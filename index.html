@@ -86,14 +86,12 @@ h1 em{font-style:normal;color:var(--red);}
 .section-head h2{font-family:'Black Han Sans';font-size:30px;color:var(--navy);margin:0;}
 .section-head span{font-family:monospace;font-size:11.5px;color:#777;}
 
-/* ---------- toggle / collapsible ---------- */
-.section-head.toggle-head{cursor:pointer;user-select:none;}
-.section-head.toggle-head:hover h2{color:var(--red);}
-.toggle-hint{display:flex;align-items:center;gap:6px;}
-.chevron{display:inline-block;transition:transform .25s ease;font-size:13px;}
-.section-head.open .chevron{transform:rotate(180deg);}
-.collapsible{max-height:0;overflow:hidden;opacity:0;transition:max-height .45s ease, opacity .35s ease, margin .35s ease;}
-.collapsible.open{max-height:8000px;opacity:1;}
+/* ---------- always-open sections ---------- */
+.collapsible{
+  max-height:none;
+  overflow:visible;
+  opacity:1;
+}
 
 /* ---------- floor plan (도면) ---------- */
 .floorplan-block{margin-top:30px;border:1px solid var(--line);background:var(--paper);padding:20px;}
@@ -266,11 +264,11 @@ footer{
   <div class="grid" id="grid"></div>
 </section>
 
-<!-- ===== 학교 소개 (클릭하여 열람) ===== -->
+<!-- ===== 학교 소개 ===== -->
 <section class="section" id="school">
-  <div class="section-head toggle-head" data-target="schoolBody">
+  <div class="section-head">
     <h2>학교 소개</h2>
-    <span class="toggle-hint">SCHOOL PROFILE · 클릭하여 열람<span class="chevron">▾</span></span>
+    <span>SCHOOL PROFILE</span>
   </div>
   <div class="collapsible" id="schoolBody">
     <div class="school-grid">
@@ -309,11 +307,11 @@ footer{
   </div>
 </section>
 
-<!-- ===== 부서 소개 (클릭하여 열람) ===== -->
+<!-- ===== 부서 소개 ===== -->
 <section class="section" id="dept">
-  <div class="section-head toggle-head" data-target="deptBody">
+  <div class="section-head">
     <h2>부서 소개</h2>
-    <span class="toggle-hint">10 CLUBS · CROSS RIVALRY · 클릭하여 열람<span class="chevron">▾</span></span>
+    <span>10 CLUBS · CROSS RIVALRY</span>
   </div>
   <div class="collapsible" id="deptBody">
     <div class="dept-grid" id="deptGrid"></div>
@@ -637,15 +635,6 @@ function schoolMapSVG(){
 }
 document.getElementById('schoolMap').innerHTML = schoolMapSVG();
 
-/* ---------- 아코디언(클릭 시 펼침) ---------- */
-document.querySelectorAll('.toggle-head').forEach(head => {
-  head.addEventListener('click', () => {
-    const target = document.getElementById(head.dataset.target);
-    const willOpen = !target.classList.contains('open');
-    target.classList.toggle('open', willOpen);
-    head.classList.toggle('open', willOpen);
-  });
-});
 </script>
 
 </body>
