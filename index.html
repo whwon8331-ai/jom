@@ -1463,6 +1463,60 @@ b, strong,
   .intro-click{font-size:11px;}
 }
 
+
+/* ---------- 안내방송 켜기/끄기 버튼 ---------- */
+.audio-control{
+  position:fixed;
+  right:14px;
+  bottom:14px;
+  z-index:900;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:44px;
+  padding:10px 13px;
+  border:1px solid rgba(255,70,88,.75);
+  background:rgba(10,14,11,.94);
+  color:#FFF5E8;
+  font-family:'Gothic A1','IBM Plex Sans KR',sans-serif;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:-.02em;
+  cursor:pointer;
+  box-shadow:0 8px 24px rgba(0,0,0,.48);
+}
+
+.audio-control-icon{
+  color:#FF3347;
+  font-size:13px;
+  animation:audioSignal 1.2s ease-in-out infinite;
+}
+
+.audio-control.muted{
+  border-color:rgba(255,255,255,.28);
+  color:#C8C2B7;
+}
+
+.audio-control.muted .audio-control-icon{
+  color:#777;
+  animation:none;
+}
+
+@keyframes audioSignal{
+  0%,100%{opacity:.45;text-shadow:0 0 0 rgba(255,51,71,0);}
+  50%{opacity:1;text-shadow:0 0 10px rgba(255,51,71,.8);}
+}
+
+@media(max-width:640px){
+  .audio-control{
+    right:10px;
+    bottom:10px;
+    min-height:42px;
+    padding:9px 11px;
+    font-size:11px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1479,6 +1533,11 @@ b, strong,
 <audio id="introAudio" preload="auto" playsinline>
   <source src="./emergency-broadcast.mp3" type="audio/mpeg">
 </audio>
+
+<button class="audio-control muted" id="audioControl" type="button" aria-label="안내방송 재생">
+  <span class="audio-control-icon" aria-hidden="true">◉</span>
+  <span id="audioControlText">안내방송 재생</span>
+</button>
 
 
 <div class="ticker">
@@ -1899,38 +1958,63 @@ document.addEventListener('keydown', e => {
 });
 
 
-/* ---------- 최초 1회 안내 화면 ---------- */
+/* ---------- 접속할 때마다 표시되는 안내 화면 ---------- */
 const firstVisitIntro = document.getElementById('firstVisitIntro');
 const introAudio = document.getElementById('introAudio');
-const introStorageKey = 'hanseo-first-visit-intro-seen-v2';
+const audioControl = document.getElementById('audioControl');
+const audioControlText = document.getElementById('audioControlText');
+
+function updateAudioControl(){
+  if(!introAudio || !audioControl || !audioControlText) return;
+
+  if(introAudio.paused){
+    audioControl.classList.add('muted');
+    audioControlText.textContent = '안내방송 재생';
+    audioControl.setAttribute('aria-label','안내방송 재생');
+  }else{
+    audioControl.classList.remove('muted');
+    audioControlText.textContent = '안내방송 끄기';
+    audioControl.setAttribute('aria-label','안내방송 끄기');
+  }
+}
 
 function beginHanseoSite(){
   if(!firstVisitIntro || firstVisitIntro.classList.contains('hidden')) return;
+
   firstVisitIntro.classList.add('hidden');
-  localStorage.setItem(introStorageKey, 'true');
+
   if(introAudio){
     introAudio.currentTime = 0;
-    introAudio.play().catch(() => {});
+    introAudio.play().then(updateAudioControl).catch(updateAudioControl);
   }
 }
 
 if(firstVisitIntro){
-  const forceIntro = new URLSearchParams(location.search).get('intro') === '1';
-
-  if(!forceIntro && localStorage.getItem(introStorageKey) === 'true'){
-    firstVisitIntro.classList.add('hidden');
-  }else{
-    firstVisitIntro.classList.remove('hidden');
-    firstVisitIntro.addEventListener('click', beginHanseoSite);
-    firstVisitIntro.addEventListener('keydown', e => {
-      if(e.key === 'Enter' || e.key === ' '){
-        e.preventDefault();
-        beginHanseoSite();
-      }
-    });
-  }
+  firstVisitIntro.classList.remove('hidden');
+  firstVisitIntro.addEventListener('click', beginHanseoSite);
+  firstVisitIntro.addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      beginHanseoSite();
+    }
+  });
 }
 
+if(audioControl && introAudio){
+  audioControl.addEventListener('click', () => {
+    if(introAudio.paused){
+      introAudio.play().then(updateAudioControl).catch(updateAudioControl);
+    }else{
+      introAudio.pause();
+      updateAudioControl();
+    }
+  });
+
+  introAudio.addEventListener('play', updateAudioControl);
+  introAudio.addEventListener('pause', updateAudioControl);
+  introAudio.addEventListener('ended', updateAudioControl);
+  updateAudioControl();
+}
 </script>
 
 </body>
